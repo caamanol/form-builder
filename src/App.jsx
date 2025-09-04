@@ -5,7 +5,7 @@ import "./styles.css";
 
 export default function App() {
   const slug = getSlugFromLocation();
-  if (slug) return <FormViewer />;
+  if (slug && !slug.includes("form-builder")) return <FormViewer />;
   return (
     <div className="app-container">
       <h1>JSON-Logic Form Builder</h1>
