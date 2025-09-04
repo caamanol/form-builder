@@ -194,8 +194,8 @@ export default function FormBuilder() {
             }
           }}>Guardar</button>
           {savedSlug && (
-            <a className="btn-ghost" href={`/${savedSlug}`} target="_blank" rel="noreferrer">
-              Abrir /{savedSlug}
+            <a className="btn-ghost" href={`${(import.meta?.env?.BASE_URL || "/").replace(/\/*$/, "/")}${savedSlug}`} target="_blank" rel="noreferrer">
+              Abrir {`${(import.meta?.env?.BASE_URL || "/")}${savedSlug}`}
             </a>
           )}
         </div>
