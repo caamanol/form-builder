@@ -25,16 +25,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
 
       - name: Install
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Set BASE_PATH from repo name
         run: echo "BASE_PATH=/${GITHUB_REPOSITORY#*/}/" >> $GITHUB_ENV
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: SPA fallback (404.html)
         run: cp dist/index.html dist/404.html
@@ -54,4 +59,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
