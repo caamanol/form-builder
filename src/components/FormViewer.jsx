@@ -3,8 +3,11 @@ import { loadSchema, listSchemas } from "../utils/storage";
 import FormPreview from "./FormPreview";
 
 export default function FormViewer() {
-  const raw = window.location.pathname.replace(/^\//, "").split(/[?#]/)[0];
-  let slug = decodeURIComponent(raw || "");
+  const base = (import.meta?.env?.BASE_URL || "/").replace(/\/*$/, "/");
+  let path = window.location.pathname;
+  if (path.startsWith(base)) path = path.slice(base.length);
+  const raw = path.split(/[?#]/)[0];
+  let slug = decodeURIComponent((raw || "")).replace(/^\/+|\/+$/g, "");
   if (slug.startsWith("form:")) slug = slug.slice(5);
   const schema = slug ? loadSchema(slug) : null;
 

@@ -4,14 +4,24 @@ import FormViewer from "./components/FormViewer";
 import "./styles.css";
 
 export default function App() {
-  const slug = typeof window !== "undefined" ? window.location.pathname.replace(/^\//, "") : "";
-  if (slug) {
-    return <FormViewer />;
-  }
+  const slug = getSlugFromLocation();
+  if (slug) return <FormViewer />;
   return (
     <div className="app-container">
       <h1>JSON-Logic Form Builder</h1>
       <FormBuilder />
     </div>
   );
+}
+
+function getSlugFromLocation() {
+  if (typeof window === "undefined") return "";
+  const base = (import.meta?.env?.BASE_URL || "/").replace(/\/*$/, "/");
+  let pathname = window.location.pathname;
+  // Quitar prefijo base (e.g., /form-builder/ en GitHub Pages)
+  if (pathname.startsWith(base)) pathname = pathname.slice(base.length);
+  // Normalizar
+  let slug = decodeURIComponent(pathname).replace(/^\/+|\/+$/g, "");
+  if (slug === "index.html") slug = "";
+  return slug;
 }
